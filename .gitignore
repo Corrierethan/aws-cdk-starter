@@ -1,0 +1,14 @@
+# Python build artifacts
+__pycache__/
+*.pyc
+
+# Virtual environments
+venv/
+.venv/
+
+# CDK build artifacts
+cdk.out/
+
+# IDE/project files
+*.iml
+.idea/
