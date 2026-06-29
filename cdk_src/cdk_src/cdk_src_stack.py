@@ -1,6 +1,6 @@
 from aws_cdk.aws_lambda import (
-Runtime,
-Code
+    Runtime,
+    Code
 )
 
 from aws_cdk import (
@@ -8,6 +8,7 @@ from aws_cdk import (
     aws_s3 as s3,
     aws_sqs as sqs,
     aws_lambda as _lambda,
+    aws_lambda_event_sources as lambda_events,
     Duration,
 )
 
@@ -36,3 +37,11 @@ class CdkSrcStack(Stack):
             handler="hello_lambda.handler",
             code=Code.from_asset("lambda")
         )
+
+        # Wire SQS as the Lambda trigger
+        my_lambda.add_event_source(
+            lambda_events.SqsEventSource(queue, batch_size=10)
+        )
+
+        # Grant Lambda read access to the S3 bucket
+        bucket.grant_read(my_lambda)
